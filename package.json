@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest --detectOpenHandles --forceExit",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --forceExit",
     "dev": "nodemon server.js"
   },
   "keywords": [],
@@ -16,9 +16,14 @@
     "mongoose": "^8.16.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.27.2",
+    "babel-jest": "^30.0.2",
     "dotenv": "^17.0.0",
     "jest": "^30.0.3",
     "mongodb-memory-server": "^10.1.4",
     "supertest": "^7.1.1"
+  },
+  "jest": {
+    "transform": {}
   }
 }
