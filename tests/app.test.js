@@ -11,4 +11,4 @@ describe('GET /api/hello', () => {
 
 // describe -> Group of related task
 // it -> For single test case
-// Request -> Help us to send http req. without browser or postman
+// Request -> Help us to send http req. without browser or postman, return promise
