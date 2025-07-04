@@ -26,7 +26,8 @@ afterAll(async () => {
 })
 
 afterEach(async () => {
-    await User.deleteMany()                   // Clear all user data (So each test starts fresh)
+    await User.deleteMany()   // Clear all user data (So each test starts fresh)
+    jest.clearAllMocks()
 })
 
 // ## Positive testing

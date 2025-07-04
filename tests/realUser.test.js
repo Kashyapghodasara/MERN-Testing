@@ -31,4 +31,4 @@ describe('POST /api/reg', () =>{
         expect(userInDB.name).toBe(userData.name)
         expect(userInDB).not.toBeNull()
     })
-})
+}) 
