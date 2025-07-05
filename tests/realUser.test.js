@@ -3,35 +3,36 @@ import request from 'supertest'
 import app from '../index.js'
 import dotenv from 'dotenv'
 import User from '../models/User.js'
-dotenv.config()
+dotenv.config({ path: '.env.test' });
+import { jest } from '@jest/globals';
+
+jest.setTimeout(20000); // 20 seconds
+
 
 /* 0 = disconnected
-
 1 = connected
-
 2 = connecting
-
 3 = disconnecting
-
 If it’s already 0, no need to call dropDatabase() or close() */
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.MONGO_URI)
+    await mongoose.connect(process.env.MONGO_URI_TEST || "mongodb://localhost:27017/Test-testing")
 })
 
 afterAll(async () => {
-    try {
-        await mongoose.connection.db.dropDatabase();
+    if (mongoose.connection.readyState !== 0) {
+        await mongoose.connection.dropDatabase();
         await mongoose.disconnect();
-    } catch (err) {
-        console.error('Error during afterAll cleanup:', err);
     }
 });
 
 
 afterEach(async () => {
-    await User.deleteMany()
-})
+    const { collections } = mongoose.connection;
+    for (const key in collections) {
+        await collections[key].deleteMany({});
+    }
+});
 
 describe('POST /api/reg', () => {
     it('Should Register User', async () => {

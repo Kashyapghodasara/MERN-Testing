@@ -32,7 +32,7 @@ afterEach(async () => {
 
 // ## Positive testing
 
-/* describe('POST /api/reg', () => {
+describe('POST /api/reg', () => {
     it('Should register user', async () => {
         const newUser = { name: "Bob", email: "b@b.com" }
         const res = await request(app).post('/api/reg').send(newUser)
@@ -45,9 +45,9 @@ afterEach(async () => {
 
         // Those expected Value also available in oringinal Response like "name" and "email"
     })
-}) */
+})
 
-/* // ## Negative testing
+// ## Negative testing
 describe('POST /api/reg',  () => {
     it('Should Return 400 Status Code with Error Message', async () => {
         const data = {email: "k@k.com"}
@@ -56,12 +56,12 @@ describe('POST /api/reg',  () => {
         expect(res.body).toHaveProperty('message', 'All fields are required.')
         expect(res.statusCode).toBe(400)
     })
-}) */
+})
 
-/* // ## Invalid Route Testing
+// ## Invalid Route Testing
 describe('GET /api/api', () => {
     it('Should Return 404 Status Code with Error Message', async() => {
         const res = await request(app).get('/api/api')
         expect(res.statusCode).toBe(404)
     })
-}) */
+})
