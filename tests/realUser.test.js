@@ -5,9 +5,9 @@ import dotenv from 'dotenv'
 import User from '../models/User.js'
 dotenv.config({ path: '.env.test' });
 import { jest } from '@jest/globals';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 jest.setTimeout(60000); // 60 seconds
-
 
 /* 0 = disconnected
 1 = connected
@@ -15,9 +15,13 @@ jest.setTimeout(60000); // 60 seconds
 3 = disconnecting
 If it’s already 0, no need to call dropDatabase() or close() */
 
+let mongoServer;
+
 beforeAll(async () => {
-    await mongoose.connect(process.env.MONGO_URI_TEST || "mongodb://localhost:27017/Test-testing")
-})
+    mongoServer = await MongoMemoryServer.create();
+    const uri = mongoServer.getUri();
+    await mongoose.connect(uri);
+});
 
 afterAll(async () => {
     if (mongoose.connection.readyState !== 0) {
