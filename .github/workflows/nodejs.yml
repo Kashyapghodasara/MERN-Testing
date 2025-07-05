@@ -1,0 +1,28 @@
+##  GitHub Actions is cloud-based CI/CD
+
+name: Node.js CI
+
+on:
+    push:
+        branches: ['main']
+    pull_request:
+        branches: ['main']
+
+jobs:
+    build-and-test:  ## Job name
+        runs-on: ubuntu-latest ## This is the Github's own service
+
+        steps:
+             - name: Checkout repository
+               uses: actions/checkout@v4
+
+             - name: Setup Node.js
+               uses: actions/setup-node@v4
+               with:
+                node-version: '20'
+
+             - name: Install dependencies
+               run: npm install
+
+             - name: Run Tests
+               run: npm test 
