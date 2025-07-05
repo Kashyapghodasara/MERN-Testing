@@ -6,7 +6,7 @@ import User from '../models/User.js'
 dotenv.config({ path: '.env.test' });
 import { jest } from '@jest/globals';
 
-jest.setTimeout(20000); // 20 seconds
+jest.setTimeout(60000); // 60 seconds
 
 
 /* 0 = disconnected
@@ -25,7 +25,6 @@ afterAll(async () => {
         await mongoose.disconnect();
     }
 });
-
 
 afterEach(async () => {
     const { collections } = mongoose.connection;

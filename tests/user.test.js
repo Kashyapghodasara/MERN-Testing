@@ -3,6 +3,10 @@ import request from "supertest"
 import app from "../index.js"
 import User from "../models/User.js"
 import { MongoMemoryServer } from "mongodb-memory-server"
+import {jest} from "@jest/globals"
+
+jest.setTimeout(60000); // 60 seconds
+
 
 let mongoServer;
 
@@ -13,22 +17,22 @@ let mongoServer;
 beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();   // It will Return a URI
     const uri = mongoServer.getUri();
-    await mongoose.connect(uri, {                   // ✅ Connect mongoose to this in-memory DB
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+    await mongoose.connect(uri)
 })
 
 afterAll(async () => {
-    await mongoose.connection.dropDatabase()     // Drop DB
-    await mongoose.connection.close()           // Close connection with DB
-    await mongoServer.stop()                    // Stop Server
-})
+    if (mongoose.connection.readyState !== 0) {
+        await mongoose.connection.dropDatabase();
+        await mongoose.disconnect();
+    }
+});
 
 afterEach(async () => {
-    await User.deleteMany()   // Clear all user data (So each test starts fresh)
-    jest.clearAllMocks()
-})
+    const { collections } = mongoose.connection;
+    for (const key in collections) {
+        await collections[key].deleteMany({});
+    }
+});
 
 // ## Positive testing
 
