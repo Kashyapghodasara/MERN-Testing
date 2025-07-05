@@ -1,6 +1,5 @@
 // ## when the user is not found in the database.
 
-
 import { jest } from '@jest/globals';
 
 jest.unstable_mockModule('../models/User.js', () => ({
