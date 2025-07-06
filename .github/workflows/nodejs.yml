@@ -12,6 +12,11 @@ jobs:
     build-and-test:  ## Job name
         runs-on: ubuntu-latest ## This is the Github's own service
 
+        env:
+           MONGO_URI: ${{ secrets.MONGO_URI }}
+           PORT: ${{ secrets.PORT }}
+
+
         steps:
              - name: Checkout repository
                uses: actions/checkout@v4
