@@ -12,6 +12,17 @@ jobs:
     build-and-test:  ## Job name
         runs-on: ubuntu-latest ## This is the Github's own service
 
+        services:
+          mongo:
+             image: mongo:6
+             ports: ['27017:27017']
+             options: >-
+                --health-cmd="mongosh --eval 'db.runCommand({ ping: 1 })'"
+                --health-interval=10s
+                --health-timeout=5s
+                --health-retries=5
+
+
         env:
            MONGO_URI: ${{ secrets.MONGO_URI }}
            PORT: ${{ secrets.PORT }}
@@ -20,6 +31,7 @@ jobs:
         steps:
              - name: Checkout repository
                uses: actions/checkout@v4
+
 
              - name: Setup Node.js
                uses: actions/setup-node@v4
@@ -37,6 +49,12 @@ jobs:
 
              - name: Start server
                run: |
-                npm run dev &
-                sleep 10 
-                curl -f http://localhost:8000 || exit 1
+                  npm start &
+                  for i in {1..20}; do
+                  if curl -f http://localhost:8000; then
+                    echo "✅ Server is up"
+                    break
+                  fi
+                    echo "⏳ Waiting for server..."
+                    sleep 1
+                  done || exit 1
