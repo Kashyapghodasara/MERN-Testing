@@ -26,3 +26,15 @@ jobs:
 
              - name: Run Tests
                run: npm test 
+            
+             - name: Run npm audit
+               run: npm audit --audit-level=moderate
+              
+             - name: Run ESLint
+               run: npx eslint . --ext .js,.jsx
+
+             - name: Start server
+               run: |
+                npm run dev &
+                sleep 10 
+                curl -f http://localhost:8000 || exit 1

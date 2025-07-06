@@ -5,7 +5,7 @@ dotenv.config()
 
 const DBconnection = mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log("DB Connection Success ✅")
-    app.listen(process.env.PORT, () => {
+    app.listen(process.env.PORT || 8000, () => {
         console.log(`Server is running on port ${process.env.PORT}`)
     })
 }).catch((err) => {
